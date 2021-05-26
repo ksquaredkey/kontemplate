@@ -21,8 +21,8 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"github.com/tazjin/kontemplate/context"
-	"github.com/tazjin/kontemplate/util"
+	"github.com/kvc-code/kontemplate/context"
+	"github.com/kvc-code/kontemplate/util"
 )
 
 const failOnMissingKeys string = "missingkey=error"

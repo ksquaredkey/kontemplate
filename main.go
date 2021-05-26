@@ -21,8 +21,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/tazjin/kontemplate/context"
-	"github.com/tazjin/kontemplate/templater"
+	"github.com/kvc-code/kontemplate/context"
+	"github.com/kvc-code/kontemplate/templater"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -48,6 +48,7 @@ var (
 	apply       = app.Command("apply", "Template resources and pass to 'kubectl apply'")
 	applyFile   = apply.Arg("file", "Cluster configuration file to use").Required().String()
 	applyDryRun = apply.Flag("dry-run", "Print remote operations without executing them").Default("false").Bool()
+	applyServer = apply.Flag("server", "Perform a server-side dry-run (default is client)").Default("false").Bool()
 
 	replace     = app.Command("replace", "Template resources and pass to 'kubectl replace'")
 	replaceFile = replace.Arg("file", "Cluster configuration file to use").Required().String()
@@ -141,13 +142,20 @@ func templateIntoDirectory(outputDir *string, rs templater.RenderedResourceSet) 
 	}
 }
 
+func dryrun() string {
+	if (*applyServer) {
+		return "--dry-run=server"
+	}
+	return "--dry-run=client"
+}
+
 func applyCommand() {
 	ctx, resources := loadContextAndResources(applyFile)
 
 	var kubectlArgs []string
 
-	if *applyDryRun {
-		kubectlArgs = []string{"apply", "-f", "-", "--dry-run"}
+	if (*applyDryRun) {
+		kubectlArgs = []string{"apply", "-f", "-", dryrun()}
 	} else {
 		kubectlArgs = []string{"apply", "-f", "-"}
 	}
