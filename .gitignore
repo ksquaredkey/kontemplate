@@ -1,2 +1,4 @@
 .idea/
 release/
+go.mod
+go.sum

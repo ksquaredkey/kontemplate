@@ -10,7 +10,7 @@
 package templater
 
 import (
-	"github.com/tazjin/kontemplate/context"
+	"github.com/ksquaredkey/kontemplate/context"
 	"reflect"
 	"strings"
 	"testing"

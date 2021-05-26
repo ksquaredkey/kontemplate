@@ -20,7 +20,7 @@ in with pkgs; buildGoPackage rec {
   name = "kontemplate-${version}";
   version = "master";
   src = ./.;
-  goPackagePath = "github.com/tazjin/kontemplate";
+  goPackagePath = "github.com/ksquaredkey/kontemplate";
   goDeps = ./deps.nix;
 
   # This configuration enables the building of statically linked
