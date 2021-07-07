@@ -21,8 +21,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/kvc-code/kontemplate/context"
-	"github.com/kvc-code/kontemplate/templater"
+	"github.com/ksquaredkey/kontemplate/context"
+	"github.com/ksquaredkey/kontemplate/templater"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 

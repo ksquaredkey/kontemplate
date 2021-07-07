@@ -4,11 +4,11 @@ pkgver=master_1e3ecad
 pkgrel=1
 pkgdesc="Simple Kubernetes resource templating"
 arch=('x86_64')
-url="https://github.com/kvc-code/kontemplate"
+url="https://github.com/ksquaredkey/kontemplate"
 license=('GPLv3')
 makedepends=('go')
 optdepends=('pass: Template secrets into resources')
-source=('kontemplate-git::git+https://github.com/kvc-code/kontemplate.git')
+source=('kontemplate-git::git+https://github.com/ksquaredkey/kontemplate.git')
 md5sums=('SKIP')
 
 pkgver() {

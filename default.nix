@@ -16,7 +16,7 @@ with pkgs; buildGoPackage rec {
   name = "kontemplate-${version}";
   version = "master";
   src = ./.;
-  goPackagePath = "github.com/kvc-code/kontemplate";
+  goPackagePath = "github.com/ksquaredkey/kontemplate";
   goDeps = ./deps.nix;
   buildInputs = [ parallel ];
 

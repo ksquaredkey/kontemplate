@@ -14,7 +14,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/kvc-code/kontemplate/util"
+	"github.com/ksquaredkey/kontemplate/util"
 )
 
 type ResourceSet struct {
