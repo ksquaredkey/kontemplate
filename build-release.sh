@@ -59,7 +59,9 @@ case "${1}" in
     "build")
         # Build releases for various operating systems:
         build-for "linux" "amd64"
+        build-for "linux" "arm64"
         build-for "darwin" "amd64"
+        build-for "darwin" "arm64"
         build-for "windows" "amd64"
         build-for "freebsd" "amd64"
         exit 0
@@ -67,7 +69,9 @@ case "${1}" in
     "sign")
         # Bundle and sign releases:
         sign-for "linux" "amd64"
+        sign-for "linux" "arm64"
         sign-for "darwin" "amd64"
+        sign-for "darwin" "arm64"
         sign-for "windows" "amd64"
         sign-for "freebsd" "amd64"
         exit 0
