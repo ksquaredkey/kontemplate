@@ -74,7 +74,7 @@ function make-fat() {
 
     local hash=$(sha256sum "${tar}")
     echo "Signing kontemplate release tarball for ${os}-${arch} with SHA256 ${hash}"
-    gpg --armor --detach-sig --sign "${tar}"
+    gpg --default-key "ksquaredkey@users.noreply.github.com" --armor --detach-sig --sign "${tar}"
 }
 
 case "${1}" in
