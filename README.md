@@ -168,8 +168,19 @@ kontemplate template example/prod-cluster.yaml -i some-api
 # ... maybe do a dry-run to see what kubectl would do:
 kontemplate apply example/prod-cluster.yaml --dry-run
 
+# ... maybe do a server-side dry-run to see what the cluster thinks would happen:
+kontemplate apply example/prod-cluster.yaml --dry-run --server
+
 # And actually apply it if you like what you see:
 kontemplate apply example/prod-cluster.yaml
+
+# Finally clean up when the resource is no longer needed
+kontemplate delete example/prod-cluster.yaml -i some-api
+
+# If there are multiple resources, such as a Namespace, that was deleted first
+# you may need to tell kubectl to ignore missing resources and continue
+# cleaning up the rest.
+kontemplate delete example/prod-cluster.yaml -i some-api --ignore
 ```
 
 Check out the feature list and the individual feature documentation above. Then you should be good to go!

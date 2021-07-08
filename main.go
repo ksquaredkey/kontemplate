@@ -26,7 +26,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-const version string = "1.8.1"
+const version string = "1.9.0"
 
 // This variable will be initialised by the Go linker during the builder
 var gitHash string

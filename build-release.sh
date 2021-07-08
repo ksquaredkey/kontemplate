@@ -12,7 +12,7 @@ set -eo pipefail
 
 readonly GIT_HASH="$(git rev-parse --short HEAD)"
 readonly LDFLAGS="-X main.gitHash=${GIT_HASH} -w -s"
-readonly VERSION="1.8.1-${GIT_HASH}"
+readonly VERSION="1.9.0-${GIT_HASH}"
 
 function binary-name() {
     local os="${1}"
@@ -79,6 +79,10 @@ function make-fat() {
 
 case "${1}" in
     "build")
+        # set up environment
+        go mod init github.com/ksquaredkey/kontemplate
+        go mod tidy
+        #
         # Build releases for various operating systems:
         # Linux x86_64
         build-for "linux" "amd64"
