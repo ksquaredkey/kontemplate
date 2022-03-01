@@ -12,7 +12,7 @@ set -eo pipefail
 
 readonly GIT_HASH="$(git rev-parse --short HEAD)"
 readonly LDFLAGS="-X main.gitHash=${GIT_HASH} -w -s"
-readonly VERSION="1.9.0-${GIT_HASH}"
+readonly VERSION="1.10.0-${GIT_HASH}"
 
 function binary-name() {
     local os="${1}"
