@@ -26,7 +26,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-const version string = "1.9.0"
+const version string = "1.10.0"
 
 // This variable will be initialised by the Go linker during the builder
 var gitHash string
@@ -49,9 +49,10 @@ var (
 	applyFile   = apply.Arg("file", "Cluster configuration file to use").Required().String()
 	applyDryRun = apply.Flag("dry-run", "Print remote operations without executing them").Default("false").Bool()
 	applyServer = apply.Flag("server", "Perform a server-side dry-run (default is client)").Default("false").Bool()
+	applySSA    = apply.Flag("ssa", "Perform a Service-Side Apply (for large files)").Default("false").Bool()
 
 	replace     = app.Command("replace", "Template resources and pass to 'kubectl replace'")
-	replaceFile  = replace.Arg("file", "Cluster configuration file to use").Required().String()
+	replaceFile = replace.Arg("file", "Cluster configuration file to use").Required().String()
 
 	delete       = app.Command("delete", "Template resources and pass to 'kubectl delete'")
 	deleteFile   = delete.Arg("file", "Cluster configuration file to use").Required().String()
@@ -144,7 +145,7 @@ func templateIntoDirectory(outputDir *string, rs templater.RenderedResourceSet) 
 }
 
 func dryrun() string {
-	if (*applyServer) {
+	if *applyServer {
 		return "--dry-run=server"
 	}
 	return "--dry-run=client"
@@ -154,18 +155,12 @@ func applyCommand() {
 	ctx, resources := loadContextAndResources(applyFile)
 	var kubectlArgs = []string{"apply", "-f", "-"}
 
-	if (*applyDryRun) {
-		if (*applyServer) {
-			kubectlArgs = append(kubectlArgs, "--dry-run=server")
-		} else {
-			kubectlArgs = append(kubectlArgs, "--dry-run=client")
-		}
+	if *applyDryRun {
+		kubectlArgs = append(kubectlArgs, dryrun())
 	}
-
-	if (*applyDryRun) {
-		kubectlArgs = []string{"apply", "-f", "-", dryrun()}
-	} else {
-		kubectlArgs = []string{"apply", "-f", "-"}
+	
+	if *applySSA {
+		kubectlArgs = append(kubectlArgs, "--serer-side")
 	}
 
 	if err := runKubectlWithResources(ctx, &kubectlArgs, resources); err != nil {
@@ -184,11 +179,11 @@ func replaceCommand() {
 
 func deleteCommand() {
 	ctx, resources := loadContextAndResources(deleteFile)
-    var args = []string{"delete", "-f", "-"}
+	var args = []string{"delete", "-f", "-"}
 
-	if (*deleteIgnore) {
-        args = append(args, "--ignore-not-found=true")
-    }
+	if *deleteIgnore {
+		args = append(args, "--ignore-not-found=true")
+	}
 
 	if err := runKubectlWithResources(ctx, &args, resources); err != nil {
 		failWithKubectlError(err)

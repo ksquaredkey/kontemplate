@@ -174,6 +174,10 @@ kontemplate apply example/prod-cluster.yaml --dry-run --server
 # And actually apply it if you like what you see:
 kontemplate apply example/prod-cluster.yaml
 
+# If a resulting manifest is too large (256k) for a Client-Side Apply, use
+# a Server-Side Apply:
+kontemplate apply example/prod-cluster.yaml --ssa
+
 # Finally clean up when the resource is no longer needed
 kontemplate delete example/prod-cluster.yaml -i some-api
 
