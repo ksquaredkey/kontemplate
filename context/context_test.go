@@ -312,6 +312,34 @@ func TestExplicitSubresourcePathLoading(t *testing.T) {
 	}
 }
 
+func TestDeepNestedResourceSets(t *testing.T) {
+	ctx, err := LoadContext("testdata/deep-collections-test.yaml", &noExplicitVars)
+
+	if err != nil {
+		t.Error(err)
+		t.Fail()
+	}
+
+	if len(ctx.ResourceSets) != 1 {
+		t.Errorf("Expected 1 resource set, got %d", len(ctx.ResourceSets))
+		t.Fail()
+	}
+
+	rs := ctx.ResourceSets[0]
+	if rs.Name != "level1/level2/level3" {
+		t.Errorf("Expected name 'level1/level2/level3', got '%s'", rs.Name)
+		t.Fail()
+	}
+	if rs.Parent != "level1/level2" {
+		t.Errorf("Expected parent 'level1/level2', got '%s'", rs.Parent)
+		t.Fail()
+	}
+	if rs.Values["inherited"] != true {
+		t.Errorf("Expected inherited variable to be true, got %v", rs.Values["inherited"])
+		t.Fail()
+	}
+}
+
 func TestSetVariablesFromArguments(t *testing.T) {
 	vars := []string{"version=some-service-version"}
 	ctx, _ := LoadContext("testdata/default-loading.yaml", &vars)

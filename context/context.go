@@ -152,23 +152,31 @@ func flattenPrepareResourceSetPaths(baseDir *string, rs *[]ResourceSet) []Resour
 			r.Path = path.Join(*baseDir, r.Path)
 		}
 
-		if len(r.Include) == 0 {
-			flattened = append(flattened, r)
-		} else {
-			for _, subResourceSet := range r.Include {
-				if subResourceSet.Path == "" {
-					subResourceSet.Path = subResourceSet.Name
-				}
-
-				subResourceSet.Parent = r.Name
-				subResourceSet.Name = path.Join(r.Name, subResourceSet.Name)
-				subResourceSet.Path = path.Join(r.Path, subResourceSet.Path)
-				subResourceSet.Values = *util.Merge(&r.Values, &subResourceSet.Values)
-				flattened = append(flattened, subResourceSet)
-			}
-		}
+		flattened = append(flattened, flattenResourceSet(r)...)
 	}
 
+	return flattened
+}
+
+// Recursively flattens a resource set and all of its nested includes into a flat list.
+// The resource set's Path must already be absolute before calling this function.
+func flattenResourceSet(rs ResourceSet) []ResourceSet {
+	if len(rs.Include) == 0 {
+		return []ResourceSet{rs}
+	}
+
+	flattened := make([]ResourceSet, 0)
+	for _, sub := range rs.Include {
+		if sub.Path == "" {
+			sub.Path = sub.Name
+		}
+
+		sub.Parent = rs.Name
+		sub.Name = path.Join(rs.Name, sub.Name)
+		sub.Path = path.Join(rs.Path, sub.Path)
+		sub.Values = *util.Merge(&rs.Values, &sub.Values)
+		flattened = append(flattened, flattenResourceSet(sub)...)
+	}
 	return flattened
 }
 

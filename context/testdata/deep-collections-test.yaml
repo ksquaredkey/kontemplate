@@ -1,0 +1,12 @@
+---
+context: k8s.prod.mydomain.com
+include:
+  - name: level1
+    values:
+      inherited: true
+    include:
+      - name: level2
+        include:
+          - name: level3
+            values:
+              own: value
