@@ -12,7 +12,7 @@ set -eo pipefail
 
 readonly GIT_HASH="$(git rev-parse --short HEAD)"
 readonly LDFLAGS="-X main.gitHash=${GIT_HASH} -w -s"
-readonly VERSION="1.10.1-${GIT_HASH}"
+readonly VERSION="1.11.1-${GIT_HASH}"
 
 function binary-name() {
     local os="${1}"
@@ -83,6 +83,10 @@ case "${1}" in
         rm -rf release
         rm -rf go.mod go.sum
         go mod init github.com/ksquaredkey/kontemplate
+        # kingpin moved from gopkg.in/alecthomas/kingpin.v2 to github.com/alecthomas/kingpin/v2
+        echo 'replace gopkg.in/alecthomas/kingpin.v2 => github.com/alecthomas/kingpin/v2 v2.4.0' >> go.mod
+        # mergo moved from github.com/imdario/mergo to dario.cat/mergo at v1.0.0; pin to pre-rename
+        go get github.com/imdario/mergo@v0.3.16
         go mod tidy
         exit 0
         ;;

@@ -160,11 +160,9 @@ Variables specified in the parent resource set are inherited by the children.
 
 ### Caveats
 
-Two caveats apply that users should be aware of:
+One caveat applies that users should be aware of:
 
 1. The parent resource set can not contain any resource templates itself.
-
-2. Only one level of nesting is supported. Specifying `include` again on a nested resource set will be ignored.
 
 [templates]: templates.md
 [cluster configuration]: cluster-config.md
