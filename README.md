@@ -103,11 +103,18 @@ It is recommended to install Kontemplate from the signed binary releases availab
 
 ### Homebrew
 
-OS X users with Homebrew installed can "tap" Kontemplate like such:
+OS X users with Homebrew installed can install Kontemplate like such:
 
 ```sh
-brew tap tazjin/kontemplate https://github.com/tazjin/kontemplate
+brew tap ksquaredkey/kontemplate https://github.com/ksquaredkey/kontemplate
+brew trust ksquaredkey/kontemplate
 brew install kontemplate
+```
+
+To upgrade an existing installation:
+
+```sh
+brew upgrade kontemplate
 ```
 
 ### NixOS
